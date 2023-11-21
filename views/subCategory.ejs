@@ -1,0 +1,92 @@
+<%- include('head') %> 
+<div class="wrapper">
+    <%- include('sidebar') %> 
+
+    <div class="main">
+        <%- include('navbar') %> 
+
+        <main class="content">
+            <div class="container-fluid p-0">
+                <h1 class="h3 mb-3"><strong>Sub Categories</strong> Dashboard</h1>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card flex-fill">
+                            <div class="card-header pb-2">
+                                <h5 class="card-title mb-0">Add subcategory</h5>
+                            </div>
+                            <div class="card-body pt-2">
+                                <form class="row" method="post" action="/addsubcategory">
+                                    <div class="col-md-5">
+                                        <select name="category" class="form-select">
+                                            <% for(let x of categories) { %>
+                                                <option value="<%= x._id %>"><%= x.name %> </option>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" name="subcategory" placeholder="Enter SubCategory">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary w-100" type="submit" style="white-space: nowrap">Add Category</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-xxl-12 d-flex">
+                        <div class="card flex-fill">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Latest Sub Categories</h5>
+                            </div>
+                            <table class="table table-hover my-0">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th class="d-none d-md-table-cell">Category</th>
+                                        <th class="d-none d-xl-table-cell">Created At</th>
+                                        <th>Status</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% let number = 1 %>
+                                    <% for (let x of subcategories) { %>
+                                        <% let date = new Date(x.createdAt) %> 
+                                        <tr>
+                                            <td><%= number %></td>
+                                            <td><%= x.name %></td>
+                                            <td><%= x.category.name %></td>
+                                            <td><%=`${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`%></td>
+                                            <td><span class="badge bg-success">Done</span></td>
+                                            <td><a href="/deletesubcategory?subcategory=<%= x._id %>" class="btn btn-sm btn-danger">Delete</a></td>
+                                        </tr>
+                                        <% number++ %> 
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row text-muted">
+                    <div class="col-6 text-start">
+                        <p class="mb-0">
+                            <a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>A & N Closet</strong></a> &copy;
+                        </p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <ul class="list-inline">
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<%- include('foot') %> 

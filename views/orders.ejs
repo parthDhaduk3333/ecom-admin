@@ -1,0 +1,68 @@
+<%- include('head') %>
+    <div class="wrapper">
+        <%- include('sidebar') %>
+
+            <div class="main">
+                <%- include('navbar') %>
+
+                    <main class="content">
+                        <div class="container-fluid p-0">
+                            <h1 class="h3 mb-3"><strong>Order</strong> Dashboard</h1>
+                            <div class="row">
+                                <div class="col-xl-12 col-xxl-12 d-flex">
+                                    <div class="card flex-fill">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-0">Latest order</h5>
+                                        </div>
+                                        <table class="table table-hover my-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>No.</th>
+                                                    <th>User</th>
+                                                    <th>Total Products</th>
+                                                    <th>Created At</th>
+                                                    <th>Status</th>
+                                                    <th>More</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% let number = 1 %> 
+                                                <% for (let x of orders) { %> 
+                                                    <tr>
+                                                        <td><%= number %>.</td>
+                                                        <td><%= x.user?.name %></td>
+                                                        <td><%= x.product?.length %> Products</td>
+                                                        <td><%= x.createdAt %></td>
+                                                        <td><%= x.status %></td>
+                                                        <td><a href="/orderInfo?orderId=<%= x._id %>" class="btn btn-primary">More</a></td>
+                                                    </tr>
+                                                    <% number++ %>
+                                                    <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    <footer class="footer">
+                        <div class="container-fluid">
+                            <div class="row text-muted">
+                                <div class="col-6 text-start">
+                                    <p class="mb-0">
+                                        <a class="text-muted" href="https://adminkit.io/"
+                                            target="_blank"><strong>A & N Closet</strong></a> &copy;
+                                    </p>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <ul class="list-inline">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+            </div>
+    </div>
+    <%- include('foot') %>

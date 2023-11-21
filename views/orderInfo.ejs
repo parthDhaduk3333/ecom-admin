@@ -1,0 +1,142 @@
+<%- include('head') %>
+    <div class="wrapper">
+        <%- include('sidebar') %>
+
+            <div class="main">
+                <%- include('navbar') %>
+
+                    <main class="content">
+                        <div class="container-fluid p-0">
+                            <h1 class="h3 mb-3"><strong>Orders</strong> Dashboard</h1>
+                            <div class="row">
+                                <div class="col-lg-4 my-2">
+                                    <div class="card  p-3">
+                                        <div class="card-body p-0">
+                                            <h5 class="card-title ">User</h5>
+                                        </div>
+                                        <div class="my-2">
+                                            <h4 class="mb-2">
+                                                <span class="fw-bold">Name : </span>
+                                                <%= order.user.name %>
+                                            </h4>
+                                            <h4 class="mb-2">
+                                                <span class="fw-bold">Email : </span>
+                                                <%= order.user.email %>
+                                            </h4>
+                                            <h4 class="mb-2">
+                                                <span class="fw-bold">Mobile : </span>
+                                                <%= order.user.mobile %>
+                                            </h4>
+                                            <h4 class="mb-2">
+                                                <span class="fw-bold">Address : </span>
+                                                <%= order.user.addressLine1 %>,<%=
+                                                        `${order.user.addressLine2},`?order.user.addressLine2:"" %>
+                                                        <%= order.user.city %>,<%= order.user.state %> - <%=
+                                                                    order.user.pin %>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 my-2">
+                                    <form action="/orderstatus" method="post">
+                                        <div class="card p-3">
+                                            <div class="card-body p-0">
+                                                <div class="card-title">Action Status</div>
+                                                <h5>Current Status</h5>
+                                                <h1 class="text-muted">
+                                                    <%= order.status %>
+                                                </h1>
+                                                <select name="status" class="form-select my-2">
+                                                    <option value="Order Created" <%= order.status == 'Order Created' && 'selected' %>> Order Created</option>
+                                                    <option value="Accepted" <%= order.status == 'Accepted' && 'selected' %>>Accepted</option>
+                                                    <option value="Dispatched" <%= order.status == 'Dispatched' && 'selected' %>>Dispatched</option>
+                                                    <option value="Delivered" <%= order.status == 'Delivered' && 'selected' %>>Delivered</option>
+                                                </select>
+                                                <input type="hidden" name="order" value="<%= order._id %>">
+                                                <button type="submit" class="btn btn-primary w-100 mt-3">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-12 my-2">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col mt-0">
+                                                    <h5 class="card-title">Products</h5>
+                                                </div>
+
+                                                <div class="col-auto">
+                                                    <div class="stat text-primary">
+                                                        <i class="align-middle" data-feather="shopping-cart"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <table class="table table-hover my-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th class="d-done d-xl-table-cell">Name</th>
+                                                        <th>Size</th>
+                                                        <th>Quantity</th>
+                                                        <th>View</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <% let number=1 %>
+                                                        <% for(let x of order.product) { %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= number %>.
+                                                                </td>
+                                                                <td>
+                                                                    <h5 class="mx-1">
+                                                                        <%= x.product.name %>
+                                                                            </h3>
+                                                                </td>
+                                                                <td>
+                                                                    <h5>
+                                                                        <%= x.size %>
+                                                                            </h3>
+                                                                </td>
+                                                                <td>
+                                                                    <h5 class="mx-2">
+                                                                        <%= x.item %>
+                                                                            </h3>
+                                                                </td>
+                                                                <td><a href="/productinfo?product=<%= x.product._id %>"
+                                                                        class="btn btn-primary btn-sm">View Product</a>
+                                                                </td>
+                                                            </tr>
+                                                            <% number++ %>
+                                                                <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </main>
+
+                    <footer class="footer">
+                        <div class="container-fluid">
+                            <div class="row text-muted">
+                                <div class="col-6 text-start">
+                                    <p class="mb-0">
+                                        <a class="text-muted" href="https://adminkit.io/"
+                                            target="_blank"><strong>A & N Closet</strong></a> &copy;
+                                    </p>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <ul class="list-inline">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+            </div>
+    </div>
+    <%- include('foot') %>

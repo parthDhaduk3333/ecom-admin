@@ -1,0 +1,140 @@
+<%- include('head') %>
+    <div class="wrapper">
+        <%- include('sidebar') %>
+
+            <div class="main">
+                <%- include('navbar') %>
+
+                    <main class="content">
+                        <div class="container-fluid p-0">
+                            <h1 class="h3 mb-3"><strong>Product</strong> Dashboard</h1>
+                            <form class="row align-items-center" action="/updateProduct?product=<%= product._id %>" method="post" enctype="multipart/form-data">
+                                <div class="col-lg-4 col-md-6 my-2">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" name="name" value="<%= product.name %>" class="form-control">
+                                </div>
+                                <div class="col-lg-4 col-md-6 my-2">
+                                    <label class="form-label">Price</label>
+                                    <input type="text" name="price" value="<%= product.price %>" class="form-control">
+                                </div>
+                                <div class="col-lg-4 col-md-6 my-2">
+                                    <label class="form-label">Original Price</label>
+                                    <input type="text" name="OriginalPrice" value="<%= product.OriginalPrice %>"
+                                        class="form-control">
+                                </div>
+                                <div class="col-lg-4 col-md-6 my-2">
+                                    <label class="form-label">Category</label>
+                                    <select type="text" name="category" class="form-control" id="category">
+                                        <% for (let x of categories) { %>
+                                            <% if (x._id==product.category.id) { %>
+                                                <option value="<%= x._id %>" selected>
+                                                    <%= x.name %>
+                                                </option>
+                                                <% } else { %>
+                                                    <option value="<%= x._id %>">
+                                                        <%= x.name %>
+                                                    </option>
+                                                    <% } %>
+                                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4 col-md-6 my-2">
+                                    <label class="form-label">Sub Category</label>
+                                    <select type="text" name="subCategory" class="form-control" id="subcategory">
+                                        <% for (let x of subcategories) { %>
+                                            <% if (x._id==product.subCategory.id) { %>
+                                                <option value="<%= x._id %>" selected>
+                                                    <%= x.name %>
+                                                </option>
+                                                <% } else { %>
+                                                    <option value="<%= x._id %>">
+                                                        <%= x.name %>
+                                                    </option>
+                                                    <% } %>
+                                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4 col-md-6 my-2">
+                                    <label class="form-label">Size</label>
+                                    <input type="text" name="size" value="<%= product.size %>" class="form-control">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label">Description</label>
+                                    <textarea name="description" rows="3" class="form-control">
+                                        <%= product.description %>
+                                    </textarea>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a href="/newProduct?product=<%= product._id %>" class="btn btn-primary <%= !product.new ? 'btn-success' : 'btn-danger' %>  w-100 my-3"><%= !product.new ? "New Product" : "Old Product" %> </a>
+                                    <a href="/soldout?product=<%= product._id %>" class="btn btn-primary <%= !product.soldout ? 'btn-success' : 'btn-danger' %>  w-100 my-3"><%= product.soldout ? "Have an Stock" : "Sold out" %> </a>
+                                </div>
+                                <div class="col-lg-4 col-md-6 my-2">
+                                    <label class="form-label">Thumb</label>
+                                    <div style="height:300px;width: 100%;" class="position-relative">
+                                        <img src="<%= product.thumb %> " alt="thumb" class="h-100 w-100 thumbEdit"
+                                            style="object-fit:contain">
+                                            <label for="thumb" class="edit-icon position-absolute">
+                                                <span data-feather="edit" class="text-white"></span>
+                                            </label>
+                                            <input type="file" id="thumb" style="display: none" name="thumb">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 my-2">
+                                    <label class="form-label">Thumb 2</label>
+                                    <div style="height:300px;width: 100%;" class="position-relative">
+                                        <img src="<%= product.thumb2 %> " alt="thumb" class="h-100 w-100 thumbEdit"
+                                            style="object-fit:contain">
+                                            <label for="thumb2" class="edit-icon position-absolute">
+                                                <span data-feather="edit" class="text-white"></span>
+                                            </label>
+                                            <input type="file" id="thumb2" style="display:none" name="thumb2">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 my-2">
+                                    <a href="/products" class="btn btn-danger w-100">
+                                        Dicard Changes
+                                    </a>
+                                </div>
+                                <div class="col-lg-6 my-2">
+                                    <button type="submit" class="btn btn-success w-100">
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </main>
+
+                    <footer class="footer">
+                        <div class="container-fluid">
+                            <div class="row text-muted">
+                                <div class="col-6 text-start">
+                                    <p class="mb-0">
+                                        <a class="text-muted" href="https://adminkit.io/"
+                                            target="_blank"><strong>A & N Closet</strong></a> &copy;
+                                    </p>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <ul class="list-inline">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+            </div>
+    </div>
+    <script>
+        const subCategory = document.getElementById('subcategory');
+        let options;
+        const changeCategory = (e) => {
+            subCategory.innerHTML = ""
+            fetch(`/getCategory?category=${e.target.value}`)
+                .then(res => res.json())
+                .then((data => {
+                    data.map(item => {
+                        subCategory.options.add(new Option(item.name, item._id))
+                    })
+                }))
+        }
+        document.getElementById('category').addEventListener('change', changeCategory)
+    </script>
+    <%- include('foot') %>

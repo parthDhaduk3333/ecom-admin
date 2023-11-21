@@ -1,0 +1,169 @@
+<%- include('head') %>
+    <div class="wrapper">
+        <%- include('sidebar') %>
+
+            <div class="main">
+                <%- include('navbar') %>
+
+                    <main class="content">
+                        <div class="container-fluid p-0">
+                            <h1 class="h3 mb-3"><strong>Products</strong> Dashboard</h1>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card flex-fill">
+                                        <div class="card-header pb-2">
+                                            <h5 class="card-title mb-0">Add Product</h5>
+                                        </div>
+                                        <div class="card-body pt-2">
+                                            <form class="row" method="post" action="/addproduct"
+                                                enctype="multipart/form-data">
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">Name</label>
+                                                    <input type="text" class="form-control" name="name"
+                                                        placeholder="Enter Name">
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">Category</label>
+                                                    <select name="category" class="form-select" id="category">
+                                                        <% for(let x of categories) { %>
+                                                            <option value="<%= x._id %>">
+                                                                <%= x.name %>
+                                                            </option>
+                                                            <% } %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">Sub-Category</label>
+                                                    <select name="subCategory" class="form-select" id="subcategory">
+                                                        <% for(let x of subcategory) { %>
+                                                            <option value="<%= x._id %>">
+                                                                <%= x.name %>
+                                                            </option>
+                                                            <% } %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">Price</label>
+                                                    <input type="text" class="form-control" name="price"
+                                                        placeholder="Enter Price">
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">OriginalPrice</label>
+                                                    <input type="text" class="form-control" name="OriginalPrice"
+                                                        placeholder="Enter Original Price">
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">Size</label>
+                                                    <input type="text" class="form-control" name="size"
+                                                        placeholder="Enter Size">
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">Thumb</label>
+                                                    <input type="file" class="form-control" name="thumb">
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">Thumb2</label>
+                                                    <input type="file" class="form-control" name="thumb2">
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 my-1">
+                                                    <label class="form-label">Images</label>
+                                                    <input type="file" multiple class="form-control" name="images">
+                                                </div>
+                                                <div class="col-md-12 my-1">
+                                                    <label class="form-label">Description</label>
+                                                    <textarea name="description" id="" rows="3"
+                                                        class="form-control"></textarea>
+                                                </div>
+                                                <div class="col-md-12 mt-2">
+                                                    <button class="btn btn-primary w-100" type="submit"
+                                                        style="white-space: nowrap">Add Product</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-xxl-12 d-flex">
+                                    <div class="card flex-fill">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-0">Latest Projects</h5>
+                                        </div>
+                                        <table class="table table-hover my-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>No.</th>
+                                                    <th>Name</th>
+                                                    <th class="d-none d-xl-table-cell">Image</th>
+                                                    <th class="d-none d-xl-table-cell">Category</th>
+                                                    <th>Sub-Category</th>
+                                                    <th>Price</th>
+                                                    <th class="d-none d-md-table-cell">More</th>
+                                                    <th>Populer</th>
+                                                    <th class="d-none d-md-table-cell">Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% let number = 1 %> 
+                                                <% for(let x of products) { %>
+                                                    <tr>
+                                                        <td><%= number %></td>
+                                                        <td><%= x.name %> </td>
+                                                        <td>
+                                                            <img src="<%= x.thumb %>" alt="thumb" height="40">
+                                                            <img src="<%= x.thumb2 %>" alt="thumb" height="40">
+                                                        </td>
+                                                        <td><%= x?.category?.name %> </td>
+                                                        <td><%= x?.subCategory?.name %> </td>
+                                                        <td><%= x.price %> <strike class="text-muted"><%= x.OriginalPrice %></strike></td>
+                                                        <td><a href="/productinfo?product=<%= x._id %>" class="btn btn-warning btn-sm">More</a></td>
+                                                        <% if (x.populer) { %>
+                                                            <td><a href="/populer?product=<%= x._id %>" class="btn btn-success btn-sm">Remove from Populer</a></td>
+                                                        <% } else { %>
+                                                            <td><a href="/populer?product=<%= x._id %>" class="btn btn-info btn-sm">Add To Populer</a></td>
+                                                        <% } %>
+                                                        <td><a href="/deleteProduct?product=<%= x._id %>" class="btn btn-danger btn-sm">Delete</a></td>
+                                                    </tr>
+                                                    <% number++ %> 
+                                                    <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    <footer class="footer">
+                        <div class="container-fluid">
+                            <div class="row text-muted">
+                                <div class="col-6 text-start">
+                                    <p class="mb-0">
+                                        <a class="text-muted" href="https://adminkit.io/"
+                                            target="_blank"><strong>A & N Closet</strong></a> &copy;
+                                    </p>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <ul class="list-inline">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+            </div>
+    </div>
+    <script>
+        const subCategory = document.getElementById('subcategory');
+        let options;
+        const changeCategory = (e) => {
+            subCategory.innerHTML = ""
+            fetch(`/getCategory?category=${e.target.value}`)
+                .then(res => res.json())
+                .then((data => {
+                    data.map(item => {
+                        subCategory.options.add(new Option(item.name, item._id))
+                    })
+                }))
+        }
+        document.getElementById('category').addEventListener('change', changeCategory)
+    </script>
+    <%- include('foot') %>
